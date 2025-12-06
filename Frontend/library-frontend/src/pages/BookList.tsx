@@ -7,15 +7,19 @@ import './BookList.css';
 
 export default function BookList() {
   const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState<{ id?: number; title: string } | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterBy, setFilterBy] = useState<'all' | 'title' | 'author'>('all');
 
   const load = async () => {
     setLoading(true);
     try {
       const res = await getBooks();
       setBooks(res.data || []);
+      setFilteredBooks(res.data || []);
     } catch (error) {
       console.error('Error loading books:', error);
     } finally {
@@ -24,6 +28,31 @@ export default function BookList() {
   };
 
   useEffect(() => { load(); }, []);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredBooks(books);
+      return;
+    }
+
+    const term = searchTerm.toLowerCase();
+    const filtered = books.filter(book => {
+      switch (filterBy) {
+        case 'title':
+          return book.title?.toLowerCase().includes(term);
+        case 'author':
+          return book.author?.toLowerCase().includes(term);
+        case 'all':
+        default:
+          return (
+            book.title?.toLowerCase().includes(term) ||
+            book.author?.toLowerCase().includes(term) ||
+            book.description?.toLowerCase().includes(term)
+          );
+      }
+    });
+    setFilteredBooks(filtered);
+  }, [searchTerm, filterBy, books]);
 
   const handleDeleteClick = (id?: number, title?: string) => {
     if (!id) return;
@@ -54,8 +83,54 @@ export default function BookList() {
       <div className="page-header">
         <h2 className="page-title">Book Collection</h2>
         <p className="page-subtitle">
-          {books.length} {books.length === 1 ? 'book' : 'books'} in the library
+          {filteredBooks.length} {filteredBooks.length === 1 ? 'book' : 'books'} 
+          {searchTerm && ` found (${books.length} total)`}
         </p>
+      </div>
+
+      {/* Filter Section */}
+      <div className="filter-section">
+        <div className="search-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search books..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <button 
+              className="clear-search"
+              onClick={() => setSearchTerm('')}
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        <div className="filter-controls">
+          <label className="filter-label">Search in:</label>
+          <div className="filter-buttons">
+            <button
+              className={`filter-btn ${filterBy === 'all' ? 'active' : ''}`}
+              onClick={() => setFilterBy('all')}
+            >
+              All Fields
+            </button>
+            <button
+              className={`filter-btn ${filterBy === 'title' ? 'active' : ''}`}
+              onClick={() => setFilterBy('title')}
+            >
+              Title
+            </button>
+            <button
+              className={`filter-btn ${filterBy === 'author' ? 'active' : ''}`}
+              onClick={() => setFilterBy('author')}
+            >
+              Author
+            </button>
+          </div>
+        </div>
       </div>
 
       {loading ? (
@@ -63,12 +138,27 @@ export default function BookList() {
           <div className="spinner"></div>
           <p>Loading books...</p>
         </div>
-      ) : books.length === 0 ? (
+      ) : filteredBooks.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">□</div>
-          <h3>No books yet</h3>
-          <p>Start building your library by adding your first book!</p>
-          <Link to="/add" className="btn btn-primary">Add Your First Book</Link>
+          {searchTerm ? (
+            <>
+              <h3>No books found</h3>
+              <p>No books match your search criteria. Try different keywords.</p>
+              <button 
+                className="btn btn-primary"
+                onClick={() => setSearchTerm('')}
+              >
+                Clear Search
+              </button>
+            </>
+          ) : (
+            <>
+              <h3>No books yet</h3>
+              <p>Start building your library by adding your first book!</p>
+              <Link to="/add" className="btn btn-primary">Add Your First Book</Link>
+            </>
+          )}
         </div>
       ) : (
         <div className="table-container">
@@ -82,7 +172,7 @@ export default function BookList() {
               </tr>
             </thead>
             <tbody>
-              {books.map(b => (
+              {filteredBooks.map(b => (
                 <tr key={b.id} className="table-row">
                   <td className="book-title">{b.title}</td>
                   <td className="book-author">{b.author || 'Unknown'}</td>
