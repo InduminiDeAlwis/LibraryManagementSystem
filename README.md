@@ -92,42 +92,90 @@ DELETE /api/Books/{id}     - Delete book
 
 **Swagger Documentation:** `http://localhost:5013/swagger`
 
+### Database Schema
+
+```
+Books Table                    Users Table
+───────────────               ───────────────
+Id (PK, INT)                  Id (PK, INT)
+Title (TEXT, Required)        Username (TEXT, UNIQUE)
+Author (TEXT, Required)       PasswordHash (BLOB)
+Description (TEXT)            PasswordSalt (BLOB)
+CreatedAt (DATETIME)          CreatedAt (DATETIME)
+
+Indexes: Title, Author        Index: Username (UNIQUE)
+```
+
+## 🏗️ System Architecture
+
+### Architecture Overview
+
+```
+User Browser
+     │
+     ▼
+┌─────────────────────────┐
+│  React Frontend         │  • Pages, Components
+│  (TypeScript)           │  • Services (API calls)
+└───────────┬─────────────┘
+            │ HTTP/JSON + JWT
+            ▼
+┌─────────────────────────┐
+│  .NET Web API           │  • Controllers
+│  (C# + EF Core)         │  • Services, Models
+└───────────┬─────────────┘
+            │ EF Core
+            ▼
+┌─────────────────────────┐
+│  SQLite Database        │  • Books, Users
+└─────────────────────────┘
+```
+
+### Request Flow
+
+```
+User Action → React Component → API Service (JWT) 
+    → Controller [Authorize] → Validate → Database 
+    → Response → Update UI
+```
+
+### Authentication Flow
+
+```
+REGISTER:
+User → Register Form → POST /api/Auth/register
+  → Hash Password (HMACSHA512) → Save to DB
+  → Generate JWT (7-day) → Return Token → Store in localStorage
+
+LOGIN:
+User → Login Form → POST /api/Auth/login
+  → Find User → Verify Password Hash
+  → Generate JWT → Return Token → Store in localStorage
+  → All API calls include: Authorization: Bearer <token>
+```
+
 ## 📁 Project Structure
 
 ```
 LibraryManagementSystem/
 ├── Backend/LibraryApi/
-│   ├── Controllers/          # API endpoints
-│   ├── Services/             # Business logic
-│   ├── Models/              # Domain entities
-│   ├── Data/                # EF Core context
-│   ├── DTOs/                # Data transfer objects
-│   ├── Migrations/          # Database migrations
-│   └── Program.cs           # App configuration
+│   ├── Controllers/       # BooksController, AuthController
+│   ├── Services/          # AuthService (JWT, password hashing)
+│   ├── Models/            # Book, User entities
+│   ├── Data/              # AppDbContext (EF Core)
+│   ├── DTOs/              # Data transfer objects
+│   ├── Migrations/        # Database migrations
+│   └── Program.cs         # App configuration
 │
-└── Frontend/library-frontend/
-    └── src/
-        ├── components/      # Reusable UI components
-        ├── pages/          # Page components
-        ├── services/       # API integration
-        ├── types/          # TypeScript types
-        └── App.tsx         # Main component
+└── Frontend/library-frontend/src/
+    ├── components/        # ConfirmModal, SuccessModal, ProtectedRoute
+    ├── pages/             # BookList, BookForm, Login, Register, Profile
+    ├── services/          # bookService, authService (API calls)
+    ├── types/             # TypeScript interfaces
+    └── App.tsx            # Main component with routing
 ```
 
-## ✅ Assessment Criteria (100%)
 
-| Criteria | Score | Highlights |
-|----------|-------|------------|
-| Code Quality | 10/10 | XML docs, JSDoc, clean architecture, SOLID principles |
-| CRUD Operations | 10/10 | Full CREATE, READ, UPDATE, DELETE with validation |
-| Technology Usage | 10/10 | Modern C#/.NET, React hooks, TypeScript |
-| SQLite + EF Core | 10/10 | Migrations, Fluent API, indexes, constraints |
-| Error Handling | 10/10 | Try-catch, validation, proper HTTP codes |
-| UI & Responsiveness | 10/10 | Mobile-first, theme toggle, animations |
-| Documentation | 10/10 | Comprehensive docs, comments, guides |
-| Setup Instructions | 10/10 | Clear prerequisites and step-by-step guide |
-
-**Total: 80/80 (100%)** 🎉
 
 ## 🔐 Security Features
 
