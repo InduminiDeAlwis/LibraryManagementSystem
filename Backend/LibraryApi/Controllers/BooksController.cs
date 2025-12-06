@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using LibraryApi.Data;
 using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ namespace LibraryApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly AppDbContext _context;
