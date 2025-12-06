@@ -20,15 +20,15 @@ function Navigation() {
   return (
     <header className="app-header">
       <div className="header-content">
-        <h1 className="app-title">📚 Library Management System</h1>
+        <h1 className="app-title">Library Management System</h1>
         <nav className="app-nav">
           {isLoggedIn ? (
             <>
-              <span className="nav-username">👤 {username}</span>
+              <span className="nav-username"><span className="icon">●</span> {username}</span>
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/add" className="nav-link nav-link-primary">+ Add Book</Link>
               <button onClick={handleLogout} className="nav-link nav-link-logout">
-                🚪 Logout
+                Logout
               </button>
             </>
           ) : (

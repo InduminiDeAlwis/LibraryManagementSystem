@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import { createBook, getBook, updateBook } from '../services/bookService';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import SuccessModal from '../components/SuccessModal';
 import './BookForm.css';
 
 export default function BookForm() {
   const [book, setBook] = useState<Book>({ title: '', author: '', description: '' });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
 
@@ -50,10 +53,15 @@ export default function BookForm() {
     try {
       if (id) {
         await updateBook(Number(id), book);
+        setSuccessMessage(`"${book.title}" has been updated successfully!`);
       } else {
         await createBook(book);
+        setSuccessMessage(`"${book.title}" has been added to the library!`);
       }
-      navigate('/');
+      setSuccessModalOpen(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     } catch (error) {
       console.error('Error saving book:', error);
       alert('Failed to save book');
@@ -67,7 +75,7 @@ export default function BookForm() {
       <div className="form-card">
         <div className="form-header">
           <h2 className="form-title">
-            {id ? '📝 Edit Book' : '➕ Add New Book'}
+            {id ? 'Edit Book' : 'Add New Book'}
           </h2>
           <p className="form-subtitle">
             {id ? 'Update the book information' : 'Fill in the details to add a new book'}
@@ -135,17 +143,23 @@ export default function BookForm() {
               className="btn btn-primary btn-save"
               disabled={loading}
             >
-              {loading ? '⏳ Saving...' : `💾 ${id ? 'Update' : 'Save'} Book`}
+              {loading ? 'Saving...' : `${id ? 'Update' : 'Save'} Book`}
             </button>
             <Link 
               to="/" 
               className="btn btn-secondary btn-cancel"
             >
-              ❌ Cancel
+              Cancel
             </Link>
           </div>
         </form>
       </div>
+
+      <SuccessModal
+        isOpen={successModalOpen}
+        message={successMessage}
+        onClose={() => setSuccessModalOpen(false)}
+      />
     </div>
   );
 }

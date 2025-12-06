@@ -1,4 +1,4 @@
-/* BookForm Container */
+/* BookForm Container - Manuscript Page */
 .book-form-container {
   display: flex;
   justify-content: center;
@@ -17,34 +17,58 @@
   }
 }
 
-/* Form Card */
+/* Form Card - Parchment Page */
 .form-card {
-  background-color: white;
+  background: linear-gradient(to bottom, var(--bg-elevated) 0%, var(--bg-secondary) 100%);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 24px var(--deep-shadow);
   padding: 2.5rem;
   width: 100%;
   max-width: 600px;
+  border: 3px solid var(--border-color);
+  position: relative;
 }
 
-/* Form Header */
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 40px;
+  right: 40px;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0px,
+    var(--gold) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+/* Form Header - Ornate Title */
 .form-header {
   margin-bottom: 2rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--gold);
   padding-bottom: 1.5rem;
+  text-align: center;
 }
 
 .form-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--leather);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px var(--warm-shadow);
 }
 
 .form-subtitle {
   font-size: 0.95rem;
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-weight: 400;
+  font-style: italic;
+  font-family: 'Lora', serif;
 }
 
 /* Form Styles */
@@ -74,57 +98,59 @@
   font-weight: 700;
 }
 
-/* Input Styles */
+/* Input Styles - Calligraphy-ready */
 .form-input,
 .form-textarea {
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
-  font-family: inherit;
+  font-family: 'Merriweather', serif;
   transition: all 0.3s ease;
-  background-color: #fafafa;
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #667eea;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--gold);
+  background-color: var(--parchment);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
 }
 
 .form-input:hover:not(:disabled),
 .form-textarea:hover:not(:disabled) {
-  border-color: #bdc3c7;
+  border-color: var(--bookshelf);
 }
 
 .form-input:disabled,
 .form-textarea:disabled {
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .input-error {
-  border-color: #e74c3c !important;
-  background-color: #fef5f5;
+  border-color: var(--error) !important;
+  background-color: rgba(168, 68, 71, 0.05);
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+  box-shadow: 0 0 0 3px rgba(168, 68, 71, 0.15);
 }
 
 .form-textarea {
   resize: vertical;
   min-height: 120px;
+  line-height: 1.8;
 }
 
 /* Helper Text */
 .helper-text {
   font-size: 0.85rem;
-  color: #95a5a6;
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -148,30 +174,31 @@
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #f0f0f0;
+  border-top: 2px solid var(--gold);
 }
 
-/* Button Styles */
+/* Button Styles - Embossed Leather */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.85rem 1.5rem;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  font-family: inherit;
+  font-family: 'Lora', serif;
   flex: 1;
+  box-shadow: 0 3px 8px var(--warm-shadow);
 }
 
 .btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px var(--deep-shadow);
 }
 
 .btn:active:not(:disabled) {
@@ -185,12 +212,15 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
   color: white;
+  border-color: #229954;
+  font-weight: 600;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5568d3 0%, #63398b 100%);
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  border-color: #27ae60;
 }
 
 .btn-save {
@@ -200,10 +230,12 @@
 .btn-secondary {
   background-color: #95a5a6;
   color: white;
+  border-color: #7f8c8d;
 }
 
 .btn-secondary:hover {
   background-color: #7f8c8d;
+  border-color: #6c7a89;
 }
 
 .btn-cancel {
@@ -268,6 +300,16 @@
 .btn:focus-visible,
 .form-input:focus-visible,
 .form-textarea:focus-visible {
-  outline: 2px solid #667eea;
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'Lora', serif;
 }

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getBooks, deleteBook } from '../services/bookService';
 import { Book } from '../types/Book';
 import { Link } from 'react-router-dom';
+import ConfirmModal from '../components/ConfirmModal';
 import './BookList.css';
 
 export default function BookList() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<{ id?: number; title: string } | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -22,16 +25,28 @@ export default function BookList() {
 
   useEffect(() => { load(); }, []);
 
-  const remove = async (id?: number) => {
+  const handleDeleteClick = (id?: number, title?: string) => {
     if (!id) return;
-    if (!window.confirm('Are you sure you want to delete this book?')) return;
+    setBookToDelete({ id, title: title || 'this book' });
+    setModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!bookToDelete?.id) return;
     try {
-      await deleteBook(id);
+      await deleteBook(bookToDelete.id);
+      setModalOpen(false);
+      setBookToDelete(null);
       load();
     } catch (error) {
       console.error('Error deleting book:', error);
       alert('Failed to delete book');
     }
+  };
+
+  const cancelDelete = () => {
+    setModalOpen(false);
+    setBookToDelete(null);
   };
 
   return (
@@ -50,7 +65,7 @@ export default function BookList() {
         </div>
       ) : books.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📚</div>
+          <div className="empty-icon">□</div>
           <h3>No books yet</h3>
           <p>Start building your library by adding your first book!</p>
           <Link to="/add" className="btn btn-primary">Add Your First Book</Link>
@@ -83,13 +98,13 @@ export default function BookList() {
                   <td className="actions-cell">
                     <div className="action-buttons">
                       <Link to={`/edit/${b.id}`} className="btn btn-edit">
-                        ✏️ Edit
+                        Edit
                       </Link>
                       <button 
-                        onClick={() => remove(b.id)} 
+                        onClick={() => handleDeleteClick(b.id, b.title)} 
                         className="btn btn-delete"
                       >
-                        🗑️ Delete
+                        Delete
                       </button>
                     </div>
                   </td>
@@ -99,6 +114,17 @@ export default function BookList() {
           </table>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={modalOpen}
+        title="Delete Book"
+        message={`Are you sure you want to delete "${bookToDelete?.title}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 }

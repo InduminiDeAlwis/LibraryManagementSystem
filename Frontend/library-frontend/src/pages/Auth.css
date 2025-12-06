@@ -1,4 +1,4 @@
-/* Auth Container */
+/* Auth Container - Library Card Catalog */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -8,15 +8,30 @@
   animation: fadeIn 0.5s ease-in;
 }
 
-/* Auth Card */
+/* Auth Card - Vintage Library Card */
 .auth-card {
-  background-color: white;
+  background: linear-gradient(to bottom, var(--bg-elevated) 0%, var(--bg-secondary) 100%);
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 30px var(--deep-shadow);
   padding: 3rem;
   width: 100%;
   max-width: 450px;
   animation: slideUp 0.6s ease-out;
+  border: 3px solid var(--border-color);
+  position: relative;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 @keyframes slideUp {
@@ -30,25 +45,30 @@
   }
 }
 
-/* Auth Header */
+/* Auth Header - Embossed Title */
 .auth-header {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--gold);
 }
 
 .auth-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--leather);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px var(--warm-shadow);
 }
 
 .auth-subtitle {
   font-size: 1rem;
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-weight: 400;
+  font-style: italic;
+  font-family: 'Lora', serif;
 }
 
 /* Auth Form */
@@ -58,19 +78,20 @@
   gap: 1.5rem;
 }
 
-/* Auth Error */
+/* Auth Error - Ink Stain Warning */
 .auth-error {
-  background-color: #fee;
-  border: 2px solid #e74c3c;
+  background-color: rgba(168, 68, 71, 0.1);
+  border: 2px solid var(--error);
   border-radius: 8px;
   padding: 1rem;
-  color: #c0392b;
+  color: var(--error);
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   animation: shake 0.5s ease-in-out;
+  font-family: 'Merriweather', serif;
 }
 
 @keyframes shake {
@@ -79,37 +100,63 @@
   75% { transform: translateX(10px); }
 }
 
-/* Auth Button */
+/* Auth Button - Wax Seal */
 .btn-auth {
   width: 100%;
   padding: 1rem 1.5rem;
   font-size: 1.05rem;
   margin-top: 0.5rem;
+  background: linear-gradient(135deg, var(--leather) 0%, var(--bookshelf) 100%);
+  border: 2px solid var(--gold);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Auth Footer */
+.btn-auth::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-auth:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Auth Footer - Ornamental */
 .auth-footer {
   text-align: center;
   margin-top: 1rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #f0f0f0;
+  border-top: 2px solid var(--gold);
 }
 
 .auth-footer p {
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-size: 0.95rem;
+  font-family: 'Merriweather', serif;
 }
 
 .auth-link {
-  color: #667eea;
+  color: var(--gold);
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
+  font-family: 'Lora', serif;
+  border-bottom: 1px dashed var(--gold);
 }
 
 .auth-link:hover {
-  color: #5568d3;
-  text-decoration: underline;
+  color: var(--bright-gold);
+  border-bottom-style: solid;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
 }
 
 /* Responsive Design */
