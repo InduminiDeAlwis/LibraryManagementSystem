@@ -3,32 +3,22 @@ using LibraryApi.Models;
 
 namespace LibraryApi.Data
 {
-    /// <summary>
     /// Database context for the Library Management System.
     /// Configures entity relationships and database schema.
-    /// </summary>
     public class AppDbContext : DbContext
     {
-        /// <summary>
         /// Initializes a new instance of the AppDbContext.
-        /// </summary>
         /// <param name="options">The database context options.</param>
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        /// <summary>
         /// Gets or sets the Books DbSet for CRUD operations.
-        /// </summary>
         public DbSet<Book> Books { get; set; } = null!;
 
-        /// <summary>
         /// Gets or sets the Users DbSet for authentication.
-        /// </summary>
         public DbSet<User> Users { get; set; } = null!;
 
-        /// <summary>
         /// Configures the model and relationships using Fluent API.
         /// Implements database constraints and indexes for performance.
-        /// </summary>
         /// <param name="modelBuilder">The model builder.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
