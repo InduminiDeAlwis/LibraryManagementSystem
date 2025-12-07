@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { getBooks, deleteBook } from '../services/bookService';
 import { Book } from '../types/Book';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ConfirmModal from '../components/ConfirmModal';
+import BookDetailsModal from '../components/BookDetailsModal';
 import './BookList.css';
 
 export default function BookList() {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [bookToDelete, setBookToDelete] = useState<{ id?: number; title: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterBy, setFilterBy] = useState<'all' | 'title' | 'author'>('all');
@@ -54,17 +58,22 @@ export default function BookList() {
     setFilteredBooks(filtered);
   }, [searchTerm, filterBy, books]);
 
+  const handleBookClick = (book: Book) => {
+    setSelectedBook(book);
+    setDetailsModalOpen(true);
+  };
+
   const handleDeleteClick = (id?: number, title?: string) => {
     if (!id) return;
     setBookToDelete({ id, title: title || 'this book' });
-    setModalOpen(true);
+    setDeleteModalOpen(true);
   };
 
   const confirmDelete = async () => {
     if (!bookToDelete?.id) return;
     try {
       await deleteBook(bookToDelete.id);
-      setModalOpen(false);
+      setDeleteModalOpen(false);
       setBookToDelete(null);
       load();
     } catch (error) {
@@ -74,7 +83,7 @@ export default function BookList() {
   };
 
   const cancelDelete = () => {
-    setModalOpen(false);
+    setDeleteModalOpen(false);
     setBookToDelete(null);
   };
 
@@ -173,7 +182,13 @@ export default function BookList() {
             </thead>
             <tbody>
               {filteredBooks.map(b => (
-                <tr key={b.id} className="table-row">
+                <tr 
+                  key={b.id} 
+                  className="table-row"
+                  onClick={() => handleBookClick(b)}
+                  style={{ cursor: 'pointer' }}
+                  title="Click to view details"
+                >
                   <td className="book-title">{b.title}</td>
                   <td className="book-author">{b.author || 'Unknown'}</td>
                   <td className="book-description">
@@ -185,7 +200,7 @@ export default function BookList() {
                       <span className="no-description">No description</span>
                     )}
                   </td>
-                  <td className="actions-cell">
+                  <td className="actions-cell" onClick={(e) => e.stopPropagation()}>
                     <div className="action-buttons">
                       <Link to={`/edit/${b.id}`} className="btn btn-edit">
                         Edit
@@ -205,8 +220,14 @@ export default function BookList() {
         </div>
       )}
 
+      <BookDetailsModal
+        book={selectedBook}
+        isOpen={detailsModalOpen}
+        onClose={() => setDetailsModalOpen(false)}
+      />
+
       <ConfirmModal
-        isOpen={modalOpen}
+        isOpen={deleteModalOpen}
         title="Delete Book"
         message={`Are you sure you want to delete "${bookToDelete?.title}"? This action cannot be undone.`}
         confirmText="Delete"

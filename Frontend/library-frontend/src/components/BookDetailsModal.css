@@ -1,0 +1,253 @@
+.book-details-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.book-details-modal {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+  border: 2px solid rgba(139, 69, 19, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.15);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(210, 105, 30, 0.05));
+  border-radius: 14px 14px 0 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #8B4513;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-close {
+  background: rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B4513;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(139, 69, 19, 0.2);
+  transform: rotate(90deg);
+  border-color: rgba(139, 69, 19, 0.4);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.book-detail-section {
+  margin-bottom: 1.5rem;
+}
+
+.book-detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #8B4513;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.75rem;
+  background: rgba(255, 248, 220, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+.book-detail-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #8B4513;
+  background: rgba(139, 69, 19, 0.08);
+}
+
+.book-detail-description {
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 60px;
+  background: rgba(255, 248, 220, 0.4);
+}
+
+.detail-date {
+  font-style: italic;
+  color: #666;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  border-top: 2px solid rgba(139, 69, 19, 0.15);
+  background: rgba(255, 248, 220, 0.2);
+  border-radius: 0 0 14px 14px;
+}
+
+.btn-close-modal {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
+}
+
+.btn-close-modal:hover {
+  background: linear-gradient(135deg, #A0522D, #8B4513);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+}
+
+.btn-close-modal:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .book-details-modal {
+    max-width: 100%;
+    max-height: 95vh;
+    margin: 0.5rem;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-footer {
+    padding: 1rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .book-details-modal {
+    background: rgba(40, 40, 40, 0.98);
+    border-color: rgba(139, 69, 19, 0.4);
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.2), rgba(210, 105, 30, 0.1));
+    border-bottom-color: rgba(139, 69, 19, 0.3);
+  }
+
+  .modal-title {
+    color: #D2691E;
+  }
+
+  .modal-close {
+    background: rgba(139, 69, 19, 0.2);
+    color: #D2691E;
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+
+  .modal-close:hover {
+    background: rgba(139, 69, 19, 0.3);
+    border-color: rgba(139, 69, 19, 0.5);
+  }
+
+  .detail-label {
+    color: #D2691E;
+  }
+
+  .detail-value {
+    color: #e0e0e0;
+    background: rgba(255, 248, 220, 0.05);
+    border-color: rgba(139, 69, 19, 0.2);
+  }
+
+  .book-detail-title {
+    color: #D2691E;
+    background: rgba(139, 69, 19, 0.15);
+  }
+
+  .book-detail-description {
+    background: rgba(255, 248, 220, 0.08);
+  }
+
+  .modal-footer {
+    background: rgba(255, 248, 220, 0.05);
+    border-top-color: rgba(139, 69, 19, 0.3);
+  }
+}

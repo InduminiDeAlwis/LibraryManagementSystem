@@ -248,6 +248,7 @@
   border-bottom: 1px solid var(--border-color);
   transition: all 0.3s ease;
   background-color: var(--bg-elevated);
+  cursor: pointer;
 }
 
 .books-table tbody tr:last-child {
@@ -259,6 +260,11 @@
   transform: translateX(5px);
   box-shadow: -4px 0 8px var(--warm-shadow);
   border-left: 4px solid var(--gold);
+}
+
+.books-table tbody tr:active {
+  transform: translateX(3px);
+  background: var(--bg-secondary);
 }
 
 .books-table td {
