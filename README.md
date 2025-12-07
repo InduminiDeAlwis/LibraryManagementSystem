@@ -2,24 +2,24 @@
 
 A modern full-stack web application for managing library books with secure user authentication.
 
-## 🎯 Overview
+##  Overview
 
 Built with .NET 9.0 and React 18, this application provides complete CRUD operations for managing a library's book collection. Features include user authentication with JWT tokens, real-time search, responsive design, and comprehensive error handling.
 
 **Assessment Score: 100% (80/80 points)**
 
-## ✨ Features
+##  Features
 
-- 📖 Complete CRUD operations (Create, Read, Update, Delete books)
-- 🔐 Secure user authentication with JWT tokens
-- 🔍 Real-time search and filtering
-- 📱 Fully responsive design (mobile, tablet, desktop)
-- 🌓 Dark/light theme toggle
-- ✅ Client and server-side validation
-- 🎨 Modern UI with animations and modals
-- ⚡ Optimistic UI updates for instant feedback
+-  Complete CRUD operations (Create, Read, Update, Delete books)
+-  Secure user authentication with JWT tokens
+-  Real-time search and filtering
+-  Fully responsive design (mobile, tablet, desktop)
+-  Dark/light theme toggle
+-  Client and server-side validation
+-  Modern UI with animations and modals
+-  Optimistic UI updates for instant feedback
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 **Backend:**
 - .NET 9.0 / ASP.NET Core Web API
@@ -34,7 +34,7 @@ Built with .NET 9.0 and React 18, this application provides complete CRUD operat
 - Axios
 - CSS3 with custom properties
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -73,7 +73,7 @@ npm start
 3. Register with username (3+ chars) and password (6+ chars)
 4. Login and start managing books!
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### Authentication
 ```
@@ -106,7 +106,7 @@ CreatedAt (DATETIME)          CreatedAt (DATETIME)
 Indexes: Title, Author        Index: Username (UNIQUE)
 ```
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ### Architecture Overview
 
@@ -154,7 +154,7 @@ User → Login Form → POST /api/Auth/login
   → All API calls include: Authorization: Bearer <token>
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 LibraryManagementSystem/
@@ -177,18 +177,18 @@ LibraryManagementSystem/
 
 
 
-## 🔐 Security Features
+##  Security Features
 
-- ✅ Password hashing with HMACSHA512
-- ✅ JWT token authentication (7-day expiration)
-- ✅ Protected API endpoints with [Authorize] attribute
-- ✅ Input validation (client & server-side)
-- ✅ SQL injection prevention (EF Core parameterization)
-- ✅ XSS protection (React automatic escaping)
-- ✅ CORS configuration
-- ✅ Secure token storage
+-  Password hashing with HMACSHA512
+-  JWT token authentication (7-day expiration)
+-  Protected API endpoints with [Authorize] attribute
+-  Input validation (client & server-side)
+-  SQL injection prevention (EF Core parameterization)
+-  XSS protection (React automatic escaping)
+-  CORS configuration
+-  Secure token storage
 
-## ⚡ Performance Optimizations
+##  Performance Optimizations
 
 - Database indexes on Title, Author, CreatedAt, Username
 - Async/await throughout for non-blocking I/O
@@ -197,7 +197,7 @@ LibraryManagementSystem/
 - Client-side search filtering
 - Connection pooling (EF Core default)
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Backend won't start
 ```powershell
@@ -232,7 +232,7 @@ taskkill /PID <PID> /F
 - Token may have expired - login again
 - Verify CORS settings in `Program.cs`
 
-## 📖 Usage Guide
+##  Usage Guide
 
 **Adding a Book:**
 1. Click "Add New Book"
@@ -253,7 +253,7 @@ taskkill /PID <PID> /F
 - Select filter type (All Fields, Title, or Author)
 - Results update in real-time
 
-## 🎓 Learning Outcomes
+##  Learning Outcomes
 
 This project demonstrates proficiency in:
 - ASP.NET Core Web API development
@@ -265,14 +265,14 @@ This project demonstrates proficiency in:
 - Error handling best practices
 - Responsive UI/UX design
 
-## 📚 Documentation
+##  Documentation
 
 - **README.md** - This file (quick start and overview)
 - **PROJECT_SUMMARY.md** - Comprehensive project details
 - **ASSESSMENT_VERIFICATION.md** - Detailed criteria checklist
 - **AUTH_SETUP_GUIDE.md** - Authentication implementation guide
 
-## 👨‍💻 Author
+##  Author
 
 **Library Management System**  
 Built with ❤️ using .NET, React, and TypeScript
@@ -280,7 +280,7 @@ Built with ❤️ using .NET, React, and TypeScript
 **GitHub:** [@InduminiDeAlwis](https://github.com/InduminiDeAlwis)  
 **Repository:** [LibraryManagementSystem](https://github.com/InduminiDeAlwis/LibraryManagementSystem)
 
-## 📝 License
+##  License
 
 Created for educational purposes as part of an internship assignment.
 
